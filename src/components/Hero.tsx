@@ -1,60 +1,43 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from 'framer-motion';
 
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  // Array of workspace images for slideshow
+
   const workspaceImages = [
-    '/images/main4.jpg', // Main image 4
-    '/images/main1.jpg', // Main image 1
-    '/images/main2.jpg', // Main image 2
-    '/images/climate-lab.jpg', // Climate lab workspace
-    '/images/main3.jpg', // Main image 3
-    '/images/robotics-lab.jpg' // Robotics lab workspace
+    "/images/main4.jpg",
+    "/images/main1.jpg",
+    "/images/main2.jpg",
+    "/images/climate-lab.jpg",
+    "/images/main3.jpg",
+    "/images/robotics-lab.jpg",
   ];
-  
-  // Note: To add more workspace images, simply add them to the public/images folder
-  // and update this array with the new image paths
-  
-  // Navigation functions
-  const goToPrevious = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? workspaceImages.length - 1 : prevIndex - 1
-    );
-  };
 
-  const goToNext = () => {
-    setCurrentImageIndex((prevIndex) => 
-      (prevIndex + 1) % workspaceImages.length
-    );
-  };
+  const goToPrevious = () =>
+    setCurrentImageIndex((prev) => (prev === 0 ? workspaceImages.length - 1 : prev - 1));
+  const goToNext = () => setCurrentImageIndex((prev) => (prev + 1) % workspaceImages.length);
 
-  // Auto-slide functionality
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        (prevIndex + 1) % workspaceImages.length
-      );
-    }, 5000); // Change image every 5 seconds
-    
+      setCurrentImageIndex((prev) => (prev + 1) % workspaceImages.length);
+    }, 5000);
     return () => clearInterval(interval);
   }, [workspaceImages.length]);
 
   return (
-    <div 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image Slideshow */}
       <div className="absolute inset-0 z-0">
         {workspaceImages.map((image, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              index === currentImageIndex ? "opacity-100" : "opacity-0"
             }`}
           >
             <Image
@@ -62,45 +45,41 @@ export default function Hero() {
               alt={`MAKEISTAN Workspace ${index + 1}`}
               fill
               className={`object-cover object-center transition-all duration-700 ${
-                isHovered ? 'brightness-30 scale-105' : 'brightness-50'
+                isHovered ? "brightness-30 scale-105" : "brightness-50"
               }`}
-              style={{ objectPosition: 'center 40%' }}
+              style={{ objectPosition: "center 40%" }}
               priority={index === 0}
             />
           </div>
         ))}
-        
-        {/* Navigation Arrows */}
+
         <button
           onClick={goToPrevious}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/30 bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 transition-colors"
           aria-label="Previous image"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        
-        <button
-          onClick={goToNext}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-          aria-label="Next image"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        {/* Slideshow indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex space-x-2">
+        <button
+          onClick={goToNext}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/30 bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 transition-colors"
+          aria-label="Next image"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
           {workspaceImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentImageIndex 
-                  ? 'bg-white scale-125' 
-                  : 'bg-white/50 hover:bg-white/75'
+              className={`h-2 rounded-full transition-all ${
+                index === currentImageIndex ? "bg-white w-6" : "bg-white/50 w-2 hover:bg-white/75"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -108,52 +87,48 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Removed Large Background Text */}
-
-      {/* Default Content */}
-      <div 
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto opacity-100 transform scale-100 transition-all duration-1000 ease-out"
+      <motion.div
+        className="relative z-10 text-center px-4 max-w-5xl mx-auto"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
       >
-        <h1 className={`text-6xl md:text-7xl font-bold text-white mb-6 transition-all duration-700 ease-out transform tracking-wider ${
-          isHovered ? 'scale-105 text-shadow-lg' : 'scale-100'
-        }`}>
-          MAKEISTAN
+        <h1
+          className={`text-4xl md:text-6xl font-semibold text-white tracking-tight transition-transform duration-700 ${
+            isHovered ? "scale-[1.02]" : "scale-100"
+          }`}
+        >
+          Ready to Build Your AI &amp; Robotics Lab?
         </h1>
-        <div className="space-y-4">
-          <p className={`text-2xl md:text-3xl text-white font-light transition-all duration-500 ease-out transform ${
-            isHovered ? 'translate-y-[-4px] scale-102' : 'translate-y-0 scale-100'
-          }`}>
-            Gilgit Baltistan's First Ever Makerspace
+        <div className="mt-6 space-y-4 max-w-4xl mx-auto">
+          <p className="text-xl md:text-2xl text-white font-light">
+            Let&apos;s build the future of education together.
           </p>
-          <p className={`text-xl md:text-2xl text-white font-light mb-8 transition-all duration-500 ease-out transform delay-100 ${
-            isHovered ? 'translate-y-[-4px] scale-102' : 'translate-y-0 scale-100'
-          }`}>
-            Where Innovation Meets Impact
+          <p className="text-base md:text-lg text-white/95 leading-relaxed">
+            Whether you&apos;re a school, university, or educational organization, Makeistan
+            can help you create an inspiring learning environment where students build,
+            innovate, and lead the future.
           </p>
         </div>
-        
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-8">
-          <a 
-            href="#explore"
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl font-medium w-48 transform hover:-translate-y-1 relative overflow-hidden group"
+
+        <div className="flex flex-col md:flex-row gap-3 justify-center items-center mt-10">
+          <Link
+            href="/about"
+            className="inline-flex items-center px-6 py-2.5 rounded-full bg-white text-foreground text-sm font-medium hover:bg-white/90 transition-colors w-56 justify-center"
           >
-            <span className="relative z-10">Explore Our Labs</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </a>
-          <a 
-            href="#about"
-            className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-full hover:bg-gradient-to-r hover:from-white/10 hover:to-white/5 transition-all duration-300 hover:scale-110 hover:shadow-2xl font-medium w-48 transform hover:-translate-y-1 relative overflow-hidden group"
+            Book a Demo
+          </Link>
+          <Link
+            href="/team"
+            className="inline-flex items-center px-6 py-2.5 rounded-full border border-white/40 text-white text-sm font-medium hover:bg-white/10 transition-colors w-56 justify-center"
           >
-            <span className="relative z-10">Learn More</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </a>
+            Talk to Our Team
+          </Link>
         </div>
-      </div>
-
-
+      </motion.div>
     </div>
   );
 }

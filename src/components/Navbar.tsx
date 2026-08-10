@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useCart } from "@/components/CartProvider";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 interface DropdownItem {
   name: string;
@@ -18,60 +20,70 @@ interface NavItem {
 }
 
 export default function Navbar() {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+  const { cartCount } = useCart();
 
-const navItems: NavItem[] = [
+  const navItems: NavItem[] = [
+    { name: "Home", href: "/" },
     {
-      name: 'Home',
-      href: '/'
-    },
-    {
-      name: 'About',
+      name: "Our Team",
       dropdown: [
-        { name: 'About Us', href: '/about', icon: '📖', title: 'About MAKEISTAN' },
-        { name: 'Our Team', href: '/team', icon: '👥', title: 'About Team' }
-      ]
+        { name: "Our Team", href: "/team", icon: "👥", title: "About Team" },
+      ],
     },
     {
-      name: 'Labs',
+      name: "Labs",
       dropdown: [
-        { name: 'Climate Innovation Lab', href: '/labs/climate', icon: '🌱' },
-        { name: 'Green Energy Lab', href: '/labs/energy', icon: '⚡' },
-        { name: 'Robotics & AI Lab', href: '/labs/robotics', icon: '🤖' }
-      ]
+        { name: "Climate Innovation Lab", href: "/labs/climate", icon: "🌱" },
+        { name: "Green Energy Lab", href: "/labs/energy", icon: "⚡" },
+        { name: "Robotics & AI Lab", href: "/labs/robotics", icon: "🤖" },
+      ],
     },
-    {
-      name: 'Fellowship Programs',
-      href: '/programs'
-    },
-    {
-      name: 'Our Work',
-      href: '/work'
+    { name: "Our Work", href: "/work" },
+    { name: "Shop", href: "/shop" },
+  ];
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (current > previous && current > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
     }
-];
-  return (
-    <nav className="fixed w-full bg-gray-900/95 backdrop-blur-md z-50 shadow-lg border-b border-gray-700/50">
-      <div className="max-w-7xl mx-auto pl-1 pr-4 sm:pr-6 lg:pr-8">
-          <div className="flex items-center h-20">
-            {/* Logo - Left Side */}
-            <div className="flex items-center h-full">
-              <Link href="/" className="flex items-center">
-                <img 
-                  src="/images/logo/llogo.png" 
-                  alt="MAKEISTAN" 
-                  className="h-40 w-auto"
-                />
-              </Link>
-            </div>
+  });
 
-          {/* Desktop Navigation - Right Side */}
-          <div className="hidden md:flex items-center space-x-6 ml-auto">
+  return (
+    <motion.header
+      className="fixed w-full bg-brand-header z-50 shadow-lg"
+      animate={{
+        y: hidden ? -140 : 0,
+        opacity: hidden ? 0 : 1,
+      }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
+      <div className="max-w-7xl mx-auto pl-1 pr-4 sm:pr-6 lg:pr-8">
+        <div className="flex items-center h-20">
+          {/* Logo — original ll logo, white on blue */}
+          <div className="flex items-center h-full">
+            <Link href="/" className="flex items-center">
+              <img
+                src="/images/logo/llogo.png"
+                alt="MAKEISTAN"
+                className="h-40 w-auto brightness-0 invert"
+              />
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1 ml-auto">
             {navItems.map((item) => (
               <div
                 key={item.name}
-                className="relative group"
+                className="relative"
                 onMouseEnter={() => {
                   if (hoverTimeout) {
                     clearTimeout(hoverTimeout);
@@ -88,12 +100,12 @@ const navItems: NavItem[] = [
               >
                 {item.dropdown ? (
                   <>
-                    <button className="px-4 py-2 text-white hover:text-gray-200 font-medium transition-colors duration-300">
+                    <button className="px-3 py-2 text-sm text-brand-foreground hover:text-white/80 font-medium transition-colors">
                       {item.name}
                     </button>
                     {activeDropdown === item.name && (
-                      <div 
-                        className="absolute left-0 mt-1 w-64 bg-gray-800/95 backdrop-blur-md rounded-lg shadow-2xl border border-gray-600 overflow-hidden transform opacity-0 scale-95 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:scale-100"
+                      <div
+                        className="absolute right-0 mt-1 w-64 rounded-lg bg-background border border-border shadow-2xl overflow-hidden"
                         onMouseEnter={() => {
                           if (hoverTimeout) {
                             clearTimeout(hoverTimeout);
@@ -109,15 +121,15 @@ const navItems: NavItem[] = [
                         }}
                       >
                         <div className="py-2">
-                          {item.dropdown.map((dropdownItem, index) => (
+                          {item.dropdown.map((dropdownItem) => (
                             <Link
                               key={dropdownItem.name}
                               href={dropdownItem.href}
-                              target={dropdownItem.target || '_self'}
+                              target={dropdownItem.target || "_self"}
                               title={dropdownItem.title || dropdownItem.name}
-                              className="group/item flex items-center px-4 py-3 text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 hover:text-gray-200 transition-all duration-300 transform hover:translate-x-1"
+                              className="flex items-center px-4 py-3 text-sm text-foreground hover:bg-card transition-colors"
                             >
-                              <span className="text-xl mr-3 opacity-70 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all duration-300">
+                              <span className="text-lg mr-3 opacity-70">
                                 {dropdownItem.icon}
                               </span>
                               <span className="font-medium">{dropdownItem.name}</span>
@@ -129,10 +141,15 @@ const navItems: NavItem[] = [
                   </>
                 ) : (
                   <Link
-                    href={item.href || '/'}
-                    className="px-4 py-2 text-white hover:text-gray-200 font-medium transition-colors duration-300"
+                    href={item.href || "/"}
+                    className="px-3 py-2 text-sm text-brand-foreground hover:text-white/80 font-medium transition-colors inline-flex items-center gap-2"
                   >
                     {item.name}
+                    {item.name === "Shop" && cartCount > 0 && (
+                      <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-foreground text-brand px-1 text-[10px] font-semibold">
+                        {cartCount}
+                      </span>
+                    )}
                   </Link>
                 )}
               </div>
@@ -143,16 +160,16 @@ const navItems: NavItem[] = [
           <div className="md:hidden flex items-center ml-auto">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white transition-colors duration-300"
+              className="inline-flex items-center justify-center p-2 rounded-md text-brand-foreground hover:text-white/80 transition-colors"
+              aria-label="Open main menu"
             >
-              <span className="sr-only">Open main menu</span>
               {!isMobileMenuOpen ? (
                 <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               ) : (
                 <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               )}
             </button>
@@ -162,25 +179,27 @@ const navItems: NavItem[] = [
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-gray-800 border-t border-gray-700">
+        <div className="md:hidden bg-brand-header-strong">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
               <div key={item.name} className="px-3 py-2">
                 {item.dropdown ? (
                   <div>
                     <button
-                      onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                      className="w-full text-left text-base font-medium text-white hover:text-gray-200"
+                      onClick={() =>
+                        setActiveDropdown(activeDropdown === item.name ? null : item.name)
+                      }
+                      className="w-full text-left text-sm font-medium text-brand-foreground hover:text-white/80"
                     >
                       {item.name}
                     </button>
                     {activeDropdown === item.name && (
-                      <div className="mt-2 pl-4 border-l-2 border-gray-700">
+                      <div className="mt-2 pl-4 border-l border-white/20">
                         {item.dropdown.map((dropdownItem) => (
                           <Link
                             key={dropdownItem.name}
                             href={dropdownItem.href}
-                            className="flex items-center py-2 text-sm text-white hover:text-gray-200"
+                            className="flex items-center py-2 text-sm text-brand-foreground/90 hover:text-brand-foreground"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             <span className="mr-2">{dropdownItem.icon}</span>
@@ -192,8 +211,8 @@ const navItems: NavItem[] = [
                   </div>
                 ) : (
                   <Link
-                    href={item.href || '/'}
-                    className="block text-base font-medium text-white hover:text-gray-200"
+                    href={item.href || "/"}
+                    className="block text-sm font-medium text-brand-foreground hover:text-white/80"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -201,9 +220,19 @@ const navItems: NavItem[] = [
                 )}
               </div>
             ))}
+            <Link
+              href="/cart"
+              className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-brand-foreground hover:text-white/80"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span>Cart</span>
+              <span className="rounded-full bg-brand-foreground text-brand px-2 py-0.5 text-xs font-semibold">
+                {cartCount}
+              </span>
+            </Link>
           </div>
         </div>
       )}
-    </nav>
+    </motion.header>
   );
 }

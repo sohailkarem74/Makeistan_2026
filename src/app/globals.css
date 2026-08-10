@@ -1,196 +1,158 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Design tokens — single source of truth for every surface, text, and border
+   tone. The site is light-only (no theme switch).
+   --------------------------------------------------------------------------- */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111111;
+  --muted: #4b5563;            /* a touch darker than #6b7280 for AA contrast */
+  --border: #e5e7eb;
+  --card: #f9fafb;
+  --accent: #111111;
+  --accent-foreground: #ffffff;
+  --accent-hover: #333333;
+
+  --tone: 0 0 0;
+  --surface: rgb(0 0 0 / 0.04);
+  --surface-strong: rgb(0 0 0 / 0.08);
+  --tone-fg: #111111;
+  --tone-border: rgb(0 0 0 / 0.14);
+
+  /* Brand chrome — solid blue header per the original Makeistan identity. */
+  --brand: #1d4ed8;            /* tailwind blue-700 — high contrast on white text */
+  --brand-strong: #1e40af;     /* blue-800 for hover */
+  --brand-foreground: #ffffff;
+
+  /* Custom header/message color (only for header/nav and floating message button) */
+  --brand-header: #00072D; /* requested color */
+  --brand-header-strong: #000520; /* slightly darker hover/focus state */
+
+  --chrome: #ffffff;
+  --chrome-foreground: #111111;
+  --chrome-border: #e5e7eb;
+
+  --scrim: rgb(0 0 0 / 0.5);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-chrome: var(--chrome);
+  --color-chrome-foreground: var(--chrome-foreground);
+  --color-chrome-border: var(--chrome-border);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-tone-fg: var(--tone-fg);
+  --color-tone-border: var(--tone-border);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-foreground: var(--brand-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-::-webkit-scrollbar-track {
-  background: #1f2937;
-}
+*:focus { outline: none; }
+button:focus, a:focus, input:focus, textarea:focus, select:focus { outline: none; box-shadow: none; }
+*:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #2563eb, #7c3aed);
-}
-
-/* Focus styles for accessibility */
-*:focus {
-  outline: none;
-}
-
-/* Remove focus outline for buttons and interactive elements */
-button:focus,
-a:focus,
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-/* Remove focus outline for any element with focus-visible */
-*:focus-visible {
-  outline: none;
-}
-
-/* Smooth transitions for all interactive elements */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Animation keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+/* ----- Tone tints ----------------------------------------------------------
+   Pages set data-tone on a section so the accent color reads consistently
+   without going back to the old rainbow gradients. */
+[data-tone="blue"]    { --tone: 217 91% 50%; }
+[data-tone="green"]   { --tone: 152 60% 36%; }
+[data-tone="purple"]  { --tone: 262 70% 55%; }
+[data-tone="orange"]  { --tone: 22 90% 48%; }
+[data-tone="amber"]   { --tone: 32 90% 44%; }
+[data-tone="pink"]    { --tone: 330 70% 48%; }
+[data-tone="teal"]    { --tone: 178 70% 36%; }
+[data-tone="indigo"]  { --tone: 235 70% 55%; }
+
+[data-tone] {
+  --surface: rgb(var(--tone) / 0.10);
+  --surface-strong: rgb(var(--tone) / 0.18);
+  --tone-fg: hsl(var(--tone));
+  --tone-border: rgb(var(--tone) / 0.30);
+}
+
+.surface         { background-color: var(--surface); }
+.surface-strong  { background-color: var(--surface-strong); }
+.tone-text       { color: var(--tone-fg); }
+.tone-border     { border-color: var(--tone-border); }
+
+/* ----- Animation keyframes (kept for components that still use them) ----- */
+@layer utilities {
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  @keyframes morphScale {
+    0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); }
   }
+  @keyframes slideInLeft  { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); }  to { opacity: 1; transform: translateX(0); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+
+  .animate-fade-in-up    { animation: fadeInUp 0.8s ease-out forwards; }
+  .animate-morph-scale   { animation: morphScale 2s ease-in-out infinite; }
+  .animate-slide-in-left  { animation: slideInLeft 0.8s ease-out forwards; }
+  .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+  .animate-pulse-custom  { animation: pulse 3s ease-in-out infinite; }
+  .animate-float         { animation: float 3s ease-in-out infinite; }
+  .animate-marquee       { animation: marquee linear infinite; }
 }
 
-@keyframes morphScale {
-  0% {
-    transform: scale(1);
+.animation-delay-200 { animation-delay: 0.2s; opacity: 0; }
+.animation-delay-400 { animation-delay: 0.4s; opacity: 0; }
+.animation-delay-600 { animation-delay: 0.6s; opacity: 0; }
+.animation-delay-800 { animation-delay: 0.8s; opacity: 0; }
+
+.text-shadow-lg { text-shadow: 0 10px 20px rgb(0 0 0 / 0.3); }
+.scale-102      { transform: scale(1.02); }
+
+
+/* --- Header / Message specific utilities ---------------------------------- */
+.bg-brand-header { background-color: var(--brand-header) !important; }
+.bg-brand-header-strong { background-color: var(--brand-header-strong) !important; }
+.text-brand-header-foreground { color: var(--brand-foreground) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Animation classes */
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-.animate-morph-scale {
-  animation: morphScale 2s ease-in-out infinite;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.8s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.8s ease-out forwards;
-}
-
-.animate-pulse-custom {
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animation-delay-200 {
-  animation-delay: 0.2s;
-  opacity: 0;
-}
-
-.animation-delay-400 {
-  animation-delay: 0.4s;
-  opacity: 0;
-}
-
-.animation-delay-600 {
-  animation-delay: 0.6s;
-  opacity: 0;
-}
-
-.animation-delay-800 {
-  animation-delay: 0.8s;
-  opacity: 0;
-}
-
-/* Text shadow utility */
-.text-shadow-lg {
-  text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* Scale utilities */
-.scale-102 {
-  transform: scale(1.02);
 }

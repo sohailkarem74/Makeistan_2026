@@ -1,14 +1,14 @@
 "use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import React from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 interface BackButtonProps {
   className?: string;
 }
 
-export default function BackButton({ className = '' }: BackButtonProps) {
+export default function BackButton({ className = "" }: BackButtonProps) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -18,10 +18,10 @@ export default function BackButton({ className = '' }: BackButtonProps) {
   return (
     <button
       onClick={handleBack}
-      className={`fixed top-24 left-6 z-40 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full opacity-60 hover:opacity-100 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm font-medium shadow-md hover:shadow-lg transform hover:scale-105 ${className}`}
+      className={`fixed top-24 left-6 z-40 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground hover:border-foreground transition-colors shadow-md ${className}`}
       aria-label="Go back"
     >
-      <ArrowLeft className="w-4 h-4" />
+      <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.75} />
       Back
     </button>
   );
