@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /c/Users/Lenovo/Desktop/Makesitan_update/.uipromax)",
+      "Bash(curl -sL \"https://ui-ux-pro-max-skill.nextlevelbuilder.io/assets/index-DybJ-FQd.js\" -A \"Mozilla/5.0\" -o main.js)",
+      "Bash(npm install *)",
+      "Bash(uipro --version)",
+      "Bash(uipro --help)",
+      "Bash(uipro init *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
