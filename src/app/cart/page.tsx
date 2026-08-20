@@ -29,11 +29,10 @@ const itemVariants: Variants = {
 };
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  }).format(value);
+  `PKR ${new Intl.NumberFormat("en-PK", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value)}`;
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, cartTotal } = useCart();

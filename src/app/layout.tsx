@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import { CartProvider } from "@/components/CartProvider";
 import { Analytics } from "@vercel/analytics/next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -29,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased font-sans`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} bg-background text-foreground antialiased font-sans`}
       >
         <CartProvider>{children}</CartProvider>
         <FloatingContactButton />

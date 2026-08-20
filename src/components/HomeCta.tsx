@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
+import BookDemoButton from "@/components/BookDemoButton";
 
 export default function HomeCta() {
   return (
@@ -22,13 +23,11 @@ export default function HomeCta() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/about"
+            <BookDemoButton
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-foreground hover:bg-white/90 transition-colors min-w-44"
+              showArrow
             >
-              Book a Demo
-              <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
-            </Link>
+            </BookDemoButton>
             <Link
               href="/team"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/35 px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors min-w-44"

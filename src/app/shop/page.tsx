@@ -31,17 +31,16 @@ const itemVariants: Variants = {
 };
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  }).format(value);
+  `PKR ${new Intl.NumberFormat("en-PK", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value)}`;
 
 export default function ShopPage() {
-  const [selectedCategory, setSelectedCategory] = useState<(typeof categories)[number]>("All");
-  const [searchQuery, setSearchQuery] = useState("");
   const { addToCart, cartCount } = useCart();
   const prefersReducedMotion = useReducedMotion();
+  const [selectedCategory, setSelectedCategory] = useState<(typeof categories)[number]>("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -176,7 +175,9 @@ export default function ShopPage() {
                         alt={product.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                        className={`transition-transform duration-500 ease-out ${
+                          product.id === 2 ? "object-contain p-4" : "object-cover group-hover:scale-[1.02]"
+                        }`}
                       />
                     </div>
                   </Link>
@@ -191,7 +192,15 @@ export default function ShopPage() {
                       </p>
                     </div>
 
-                    <h2 className="text-base font-medium text-foreground">{product.name}</h2>
+                    {product.id === 2 ? (
+                      <Link href="/shop/2" className="inline-flex w-fit">
+                        <h2 className="text-base font-medium text-foreground transition-colors hover:text-muted">
+                          {product.name}
+                        </h2>
+                      </Link>
+                    ) : (
+                      <h2 className="text-base font-medium text-foreground">{product.name}</h2>
+                    )}
                     <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">
                       {product.description}
                     </p>
@@ -200,17 +209,17 @@ export default function ShopPage() {
                       <button
                         type="button"
                         onClick={() => addToCart(product)}
-                        className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-[var(--accent-hover)]"
+                        className="inline-flex flex-1 items-center justify-center rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-foreground"
                       >
                         Add to Cart
-                        <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                       </button>
                       <Link
                         href="/cart"
                         onClick={() => addToCart(product)}
-                        className="inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-foreground"
+                        className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-[var(--accent-hover)]"
                       >
                         Buy
+                        <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                       </Link>
                     </div>
                   </div>

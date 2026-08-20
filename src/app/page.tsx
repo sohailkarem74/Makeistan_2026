@@ -5,11 +5,14 @@ import WhatWeOffer from '../components/WhatWeOffer';
 import Stats from '../components/Stats';
 import WhyChooseMakeistan from '../components/why-choose-makeistan';
 import OurPartners from '../components/our-partners';
+import Gallery from '../components/Gallery';
 import FounderMessage from '../components/FounderMessage';
-import HomeCta from '../components/HomeCta';
 import Footer from '../components/Footer';
+import { getGalleryImages } from '../lib/getGalleryImages';
 
 export default function Home() {
+  const images = getGalleryImages();
+
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -19,8 +22,8 @@ export default function Home() {
       <Stats />
       <WhyChooseMakeistan />
       <OurPartners />
+      <Gallery images={images} />
       <FounderMessage />
-      <HomeCta />
       <Footer />
     </main>
   );

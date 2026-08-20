@@ -1,4 +1,4 @@
-export type ProductCategory = "RC Cars" | "Sensors" | "Arduino" | "3D Prints";
+export type ProductCategory = "RC Cars" | "Sensors";
 
 export interface Product {
   id: number;
@@ -7,73 +7,89 @@ export interface Product {
   category: ProductCategory;
   description: string;
   image: string;
+  detailSections?: { title: string; items: string[] }[];
 }
 
-export const categories = ["All", "RC Cars", "Sensors", "Arduino", "3D Prints"] as const;
+export const categories = ["All", "RC Cars", "Sensors"] as const;
 
 export const products: Product[] = [
   {
-    id: 1,
-    name: "Rally Drift RC Car",
-    price: 129.99,
-    category: "RC Cars",
-    description: "Compact, durable, and tuned for smooth indoor drifting practice.",
-    image: "/images/main1.jpg",
-  },
-  {
     id: 2,
-    name: "Environmental Sensor Kit",
-    price: 89.5,
+    name: "Makeistan 37 Sensor Kit",
+    price: 3000,
     category: "Sensors",
-    description: "A starter pack for air quality, humidity, and temperature sensing.",
-    image: "/images/main2.jpg",
-  },
-  {
-    id: 3,
-    name: "Arduino Starter Bundle",
-    price: 64.0,
-    category: "Arduino",
-    description: "Breadboard, cables, sensors, and a beginner-friendly Arduino board.",
-    image: "/images/main3.jpg",
-  },
-  {
-    id: 4,
-    name: "Solar-Powered 3D Print Lamp",
-    price: 45.0,
-    category: "3D Prints",
-    description: "A lightweight desk lamp designed for prototyping and maker spaces.",
-    image: "/images/main4.jpg",
-  },
-  {
-    id: 5,
-    name: "Off-Road RC Buggy",
-    price: 179.0,
-    category: "RC Cars",
-    description: "Built to handle rough terrain and educational robotics demos.",
-    image: "/images/climate-lab.jpg",
-  },
-  {
-    id: 6,
-    name: "Motion Detection Sensor",
-    price: 24.99,
-    category: "Sensors",
-    description: "Fast, precise sensing for smart prototypes and classroom projects.",
-    image: "/images/robotics-lab.jpg",
-  },
-  {
-    id: 7,
-    name: "Nano Arduino Controller",
-    price: 34.5,
-    category: "Arduino",
-    description: "A compact controller for lightweight automation and IoT experiments.",
-    image: "/images/logo/llogo.png",
-  },
-  {
-    id: 8,
-    name: "Maker Tool Organizer",
-    price: 29.0,
-    category: "3D Prints",
-    description: "A practical organizer for screws, tools, and small components.",
-    image: "/images/logo/llogo.png",
+    description: "A complete 37-piece sensor kit for learning electronics, robotics, and Arduino projects.",
+    image: "/images/Makeistan_shop/pro-4Xj9CpTb.jpeg",
+    detailSections: [
+      {
+        title: "Switches & Buttons",
+        items: [
+          "KY-004 Button",
+          "KY-021 Mini Switch",
+          "KY-025 Reed Switch",
+          "KY-020 Ball Switch",
+          "KY-017 Tilt Switch",
+          "KY-002 Shock Sensor",
+          "KY-031 Tap Sensor",
+          "KY-036 Touch Sensor",
+          "KY-010 Light Blocking Module",
+        ],
+      },
+      {
+        title: "Sound Modules",
+        items: [
+          "KY-037 Big Sound Sensor",
+          "KY-038 Small Sound Sensor",
+          "KY-006 Passive Buzzer",
+          "KY-012 Active Buzzer",
+        ],
+      },
+      {
+        title: "Light & Color",
+        items: [
+          "KY-018 Photoresistor",
+          "KY-027 Magic Light Cup ×2",
+          "KY-009 SMD RGB LED",
+          "KY-016 RGB LED",
+          "KY-011 Two-Color LED",
+          "KY-029 Mini Two-Color LED",
+          "KY-034 7-Color Flash LED",
+          "KY-008 Laser Emitter",
+        ],
+      },
+      {
+        title: "Temperature & Environment",
+        items: [
+          "KY-028 Digital Temperature Sensor",
+          "KY-013 Analog Temperature Sensor",
+          "KY-001 DS18B20 Temperature Sensor",
+          "KY-015 Temperature & Humidity Sensor (DHT11)",
+        ],
+      },
+      {
+        title: "Magnetic & Motion",
+        items: [
+          "KY-003 Hall Magnetic Sensor",
+          "KY-024 Linear Hall Sensor",
+          "KY-035 Analog Hall Sensor",
+          "KY-040 Rotary Encoder",
+        ],
+      },
+      {
+        title: "Infrared & Detection",
+        items: [
+          "KY-005 IR Emission Sensor",
+          "KY-022 IR Receiver",
+          "KY-032 Obstacle Avoidance Sensor",
+          "KY-033 Line Tracking Sensor",
+          "KY-026 Flame Sensor",
+          "KY-039 Heartbeat Sensor",
+        ],
+      },
+      {
+        title: "Control & Interface",
+        items: ["KY-019 5V Relay Module", "KY-023 Joystick Module (PS2-style)"],
+      },
+    ],
   },
 ];
