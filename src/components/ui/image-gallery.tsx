@@ -57,7 +57,7 @@ export function ImageGallery() {
                     Gallery
                 </p>
                 <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                    Moments weve created togather
+                    Moments we've created together
                 </h2>
             </div>
 
@@ -126,7 +126,7 @@ function AnimatedImage({ alt, src, defaultRatio, placeholder }: AnimatedImagePro
                 // Because the frame's aspect ratio is set from naturalWidth /
                 // naturalHeight, the image fits edge-to-edge with no crop.
                 className={cn(
-                    "size-full rounded-lg object-contain opacity-0 transition-opacity duration-1000 ease-in-out",
+                    "mx-auto h-auto w-auto max-h-full max-w-full rounded-lg object-contain opacity-0 transition-opacity duration-1000 ease-in-out",
                     isInView && !isLoading && "opacity-100",
                 )}
                 onLoad={handleLoad}

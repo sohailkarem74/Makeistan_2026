@@ -31,6 +31,7 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     {
       name: "Our Team",
+      href: "/team",
       dropdown: [
         { name: "Our Team", href: "/team", icon: "👥", title: "About Team" },
       ],
@@ -98,7 +99,7 @@ export default function Navbar() {
                   setHoverTimeout(timeout);
                 }}
               >
-                {item.dropdown ? (
+                {item.dropdown && item.name !== "Our Team" ? (
                   <>
                     <button className="px-3 py-2 text-sm text-brand-foreground hover:text-white/80 font-medium transition-colors">
                       {item.name}
@@ -183,7 +184,7 @@ export default function Navbar() {
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
               <div key={item.name} className="px-3 py-2">
-                {item.dropdown ? (
+                {item.dropdown && item.name !== "Our Team" ? (
                   <div>
                     <button
                       onClick={() =>

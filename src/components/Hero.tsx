@@ -40,7 +40,7 @@ export default function Hero() {
         >
           Ready to Build Your AI &amp; Robotics Lab?
         </h1>
-        <div className="mt-6 space-y-4 max-w-4xl mx-auto">
+        <div className="mt-10 space-y-6 max-w-4xl mx-auto">
           <p className="text-xl md:text-2xl text-white font-medium">
             Let&apos;s build the future of education together.
           </p>
@@ -51,7 +51,7 @@ export default function Hero() {
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-3 justify-center items-center mt-10">
+        <div className="flex flex-col md:flex-row gap-3 justify-center items-center mt-16">
           <BookDemoButton
             className="inline-flex items-center px-8 py-3.5 rounded-full bg-white text-foreground text-sm font-medium hover:bg-white/90 transition-colors w-56 justify-center"
           >
