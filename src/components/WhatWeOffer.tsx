@@ -71,7 +71,7 @@ export default function WhatWeOffer() {
   ];
 
   return (
-    <section className="py-20 bg-background" id="what-we-offer">
+    <section className="py-24 bg-background" id="what-we-offer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted animate-fade-in-up">

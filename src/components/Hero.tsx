@@ -57,10 +57,10 @@ export default function Hero() {
           >
           </BookDemoButton>
           <Link
-            href="/team"
+            href="/shop"
             className="inline-flex items-center px-8 py-3.5 rounded-full border border-white/40 text-white text-sm font-medium hover:bg-white/10 transition-colors w-56 justify-center"
           >
-            Talk to Our Team
+            Visit Shop
           </Link>
         </div>
       </motion.div>

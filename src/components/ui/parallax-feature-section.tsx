@@ -58,10 +58,10 @@ function ParallaxRow({
   return (
     <section
       ref={ref}
-      className="relative h-[80vh] w-full"
+      className="relative h-[70vh] w-full"
       style={{ zIndex: rowZ }}
     >
-      <div className="sticky top-0 flex h-[80vh] w-full items-center overflow-hidden">
+      <div className="sticky top-0 flex h-[70vh] w-full items-center overflow-hidden">
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
           className={`mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-14 lg:px-8 ${
@@ -107,7 +107,7 @@ export function ParallaxScrollFeatureSection({
   return (
     <div className="bg-background">
       {(openerTitle || openerKicker || openerSubtitle) && (
-        <div className="mx-auto max-w-5xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 lg:px-8">
           {openerKicker && (
             <p className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
               {openerKicker}
@@ -126,7 +126,7 @@ export function ParallaxScrollFeatureSection({
         </div>
       )}
 
-      <div className="space-y-6">
+      <div className="">
         {features.map((feature, index) => (
           <ParallaxRow
             key={feature.id}

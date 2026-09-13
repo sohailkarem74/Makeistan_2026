@@ -2,7 +2,6 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import WhatWeOffer from '../components/WhatWeOffer';
-import Stats from '../components/Stats';
 import WhyChooseMakeistan from '../components/why-choose-makeistan';
 import OurPartners from '../components/our-partners';
 import Gallery from '../components/Gallery';
@@ -19,7 +18,6 @@ export default function Home() {
       <Hero />
       <About />
       <WhatWeOffer />
-      <Stats />
       <WhyChooseMakeistan />
       <OurPartners />
       <Gallery images={images} />

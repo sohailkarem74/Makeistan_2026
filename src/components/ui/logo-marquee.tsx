@@ -19,7 +19,7 @@ export function LogoMarquee({
   speed = 30,
 }: LogoMarqueeProps) {
   return (
-    <div className="py-20 px-4">
+    <div className="py-24 px-4">
       <div className="mx-auto max-w-7xl">
         {title && (
           <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl text-center mb-20">

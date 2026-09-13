@@ -8,11 +8,8 @@ import * as React from "react"
 
 export function Gallery({ images = [] }: { images?: string[] }) {
     return (
-        <section className="w-full py-20">
+        <section className="w-full py-24">
             <div className="mx-auto max-w-7xl px-4 mb-12 text-center">
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted mb-4">
-                    Gallery
-                </p>
                 <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                     Moments we've created together
                 </h2>

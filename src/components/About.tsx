@@ -4,7 +4,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <section className="py-20 bg-background" id="about">
+    <section className="py-24 bg-background" id="about">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="mb-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
           About Makeistan

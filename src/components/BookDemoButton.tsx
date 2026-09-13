@@ -14,6 +14,7 @@ export default function BookDemoButton({
   showArrow = false,
 }: BookDemoButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,16 +32,28 @@ export default function BookDemoButton({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const subject = encodeURIComponent("Book a Demo request");
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    );
+    setIsSending(true);
 
-    window.location.href = `mailto:Info@makeistan.com?subject=${subject}&body=${body}`;
-    setFormData({ name: "", email: "", message: "" });
-    setIsOpen(false);
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Failed to send message");
+
+      alert("Message sent successfully!");
+      setFormData({ name: "", email: "", message: "" });
+      setIsOpen(false);
+    } catch (error) {
+      alert("Something went wrong. Please try again later.");
+      console.error(error);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -62,85 +75,84 @@ export default function BookDemoButton({
             role="dialog"
             aria-modal="true"
             aria-labelledby="book-demo-title"
-            className="w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-background p-6 text-sm text-foreground shadow-2xl sm:p-8"
+            className="relative w-full max-w-7xl overflow-y-auto rounded-2xl border border-border bg-white pt-8 px-16 pb-16 text-sm text-foreground shadow-2xl"
           >
-            <div className="mb-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-brand">
-                  <Mail className="h-3.5 w-3.5" />
-                  Contact Us
-                </p>
-                <h2 id="book-demo-title" className="mt-4 text-3xl font-semibold tracking-tight">
-                  Let&apos;s get in touch.
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  Tell us about your school, organization, or lab project and our team will get
-                  back to you.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="rounded-full p-2 text-muted hover:bg-card hover:text-foreground"
-                aria-label="Close contact form"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 rounded-full p-2 text-muted hover:bg-card hover:text-foreground transition-colors"
+              aria-label="Close contact form"
+            >
+              <X className="h-5 w-5" />
+            </button>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="demo-name" className="font-medium">
-                  Full Name
-                </label>
-                <input
-                  id="demo-name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(event) => setFormData({ ...formData, name: event.target.value })}
-                  className="mt-2 h-11 w-full rounded-full border border-border bg-transparent px-4 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  placeholder="Enter your full name"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="flex flex-col items-center text-sm text-foreground">
+              <h1 id="book-demo-title" className="text-4xl font-bold pt-0 pb-16 text-center tracking-tight">
+                Let&apos;s Get In Touch.
+              </h1>
 
-              <div>
-                <label htmlFor="demo-email" className="font-medium">
-                  Email Address
-                </label>
-                <input
-                  id="demo-email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(event) => setFormData({ ...formData, email: event.target.value })}
-                  className="mt-2 h-11 w-full rounded-full border border-border bg-transparent px-4 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  placeholder="Enter your email address"
-                />
-              </div>
+              <div className="max-w-4xl w-full px-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                  <div className="flex flex-col">
+                    <label htmlFor="demo-name" className="text-base font-medium">
+                      Full Name
+                    </label>
+                    <div className="flex items-center mt-2 mb-8 h-14 pl-4 border border-border rounded-full focus-within:ring-2 focus-within:ring-brand/40 transition-all overflow-hidden bg-transparent">
+                      <Mail className="h-6 w-6 text-muted" strokeWidth={1.75} />
+                      <input
+                        id="demo-name"
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(event) => setFormData({ ...formData, name: event.target.value })}
+                        className="h-full px-3 w-full outline-none bg-transparent text-lg"
+                        placeholder="Enter your full name"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label htmlFor="demo-message" className="font-medium">
+                  <div className="flex flex-col">
+                    <label htmlFor="demo-email" className="text-base font-medium">
+                      Email Address
+                    </label>
+                    <div className="flex items-center mt-2 mb-8 h-14 pl-4 border border-border rounded-full focus-within:ring-2 focus-within:ring-brand/40 transition-all overflow-hidden bg-transparent">
+                      <Mail className="h-6 w-6 text-muted" strokeWidth={1.75} />
+                      <input
+                        id="demo-email"
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                        className="h-full px-3 w-full outline-none bg-transparent text-lg"
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <label htmlFor="demo-message" className="text-base font-medium mt-10">
                   Message
                 </label>
                 <textarea
                   id="demo-message"
                   required
-                  rows={4}
+                  rows={10}
                   value={formData.message}
                   onChange={(event) => setFormData({ ...formData, message: event.target.value })}
-                  className="mt-2 w-full resize-none rounded-2xl border border-border bg-transparent p-4 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  placeholder="Tell us what you would like to explore..."
-                />
-              </div>
+                  className="w-full mt-2 p-4 bg-transparent border border-border rounded-lg resize-none outline-none focus:ring-2 focus:ring-brand/40 transition-all min-h-[300px] text-lg"
+                  placeholder="Enter your message"
+                ></textarea>
 
-              <button
-                type="submit"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-brand px-5 font-medium text-brand-foreground transition hover:bg-brand-strong"
-              >
-                Send Message
-                <Send className="h-4 w-4" strokeWidth={1.75} />
-              </button>
+                <div className="flex justify-center mt-10">
+                  <button
+                    type="submit"
+                    disabled={isSending}
+                    className="bg-brand hover:bg-brand-strong text-white py-2 px-8 rounded-full transition font-bold text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSending ? "Sending..." : "Send Message"}
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

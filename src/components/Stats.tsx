@@ -33,21 +33,23 @@ export default function Stats() {
   ];
 
   return (
-    <div className="mt-12 grid grid-cols-3 gap-6 max-w-4xl mx-auto sm:grid-cols-3">
-      {stats.map((s) => (
-        <motion.div
-          key={s.label}
-          className="rounded-lg bg-card p-6 text-center"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.6 }}
-        >
-          <StatNumber to={s.value} />
-          <p className="mt-2 text-sm text-muted">{s.label}</p>
-        </motion.div>
-      ))}
-    </div>
+    <section className="py-24 bg-background">
+      <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto sm:grid-cols-3">
+        {stats.map((s) => (
+          <motion.div
+            key={s.label}
+            className="rounded-lg bg-card p-6 text-center"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.6 }}
+          >
+            <StatNumber to={s.value} />
+            <p className="mt-2 text-sm text-muted">{s.label}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
   );
 }
 
