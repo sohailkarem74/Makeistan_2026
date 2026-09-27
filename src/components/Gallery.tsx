@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 
 // Images are read from the public/images/gallary folder at runtime by the
 // server page and passed in as a prop. This keeps the source of truth on disk
@@ -22,14 +23,15 @@ export function Gallery({ images = [] }: { images?: string[] }) {
                 while gap-4 supplies the horizontal gap between columns. */}
             <div className="mx-auto w-full max-w-6xl columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {(images || []).map((src, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                        key={i}
-                        src={src}
-                        alt=""
-                        loading="lazy"
-                        className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-xl object-contain"
-                    />
+                    <div key={i} className="mb-4 relative break-inside-avoid overflow-hidden rounded-xl aspect-[4/3]">
+                        <Image
+                            src={src}
+                            alt=""
+                            fill
+                            loading="lazy"
+                            className="object-cover"
+                        />
+                    </div>
                 ))}
             </div>
         </section>

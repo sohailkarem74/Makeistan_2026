@@ -21,6 +21,8 @@ export default function Hero() {
           loop
           muted
           playsInline
+          preload="metadata"
+          poster="/images/video/Background_video_poster.jpg"
         />
       </div>
 

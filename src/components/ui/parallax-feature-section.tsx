@@ -73,14 +73,14 @@ function ParallaxRow({
               style={{ y: imageY, scale: imageScale }}
               className="relative aspect-square w-full max-w-[420px] overflow-hidden shadow-md"
             >
-              <Image
-                src={feature.imageUrl}
-                alt={feature.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 80vw, 420px"
-                priority={index === 0}
-              />
+                <Image
+                  src={feature.imageUrl}
+                  alt={feature.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 420px"
+                  priority={index === 0}
+                />
             </motion.div>
           </div>
 
