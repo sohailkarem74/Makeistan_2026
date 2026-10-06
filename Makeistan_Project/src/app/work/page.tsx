@@ -1,10 +1,4 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Our Work",
-};
-
-"use client";
+import type { Metadata } from \"next\";\n\nexport const metadata: Metadata = {\n  title: \"Our Work\",\n};\n\n\"use client\";
 
 import React from "react";
 import Link from "next/link";
