@@ -224,7 +224,7 @@ export default function LabsPage() {
                       <span className="rounded-full surface px-2.5 py-0.5 text-xs text-foreground">
                         +{lab.keyAreas.length - 3} more
                       </span>
-                    ))}
+                    )}
                   </div>
                   <Link
                     href={lab.link}

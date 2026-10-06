@@ -2,11 +2,6 @@ import BackButton from "@/components/BackButton";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TeamSection from "@/components/ui/team";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Our Team",
-};
 
 const members = [
   { name: "Sohail Karim", role: "Data Science Student at GIKI", image: "/images/team/sohail.jpg", imagePosition: "object-[center_60%]" as const, href: "https://www.linkedin.com/in/sohail-karim-a7902a200", email: "info@makeistan.com" },

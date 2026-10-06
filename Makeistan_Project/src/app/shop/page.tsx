@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,11 +9,32 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/components/CartProvider";
 import { categories, products } from "@/data/products";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Shop",
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.05,
+    },
+  },
 };
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const formatPrice = (value: number) =>
+  `PKR ${new Intl.NumberFormat("en-PK", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value)}`;
 
 export default function ShopPage() {
   const { addToCart, cartCount } = useCart();

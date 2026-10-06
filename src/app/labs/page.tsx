@@ -1,9 +1,3 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Innovation Labs',
-};
-
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';

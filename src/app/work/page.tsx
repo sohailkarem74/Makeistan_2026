@@ -1,9 +1,3 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Our Work",
-};
-
 "use client";
 
 import React from "react";
